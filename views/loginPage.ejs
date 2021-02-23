@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>LoginPage</title>    
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <script type="text/javascript" src="/javascripts/loginPageScript.js"></script>
+  </head>
+  <body>
+    <div class="login-page">
+      <h2>Login Page</h2>
+      <div class="form">
+        <form action="javascript:alert('Successfully log in :)');">
+          <input type="text" id="username" placeholder="username" autofocus required/>
+          <input type="email" placeholder="email" required/>
+          <input type="password" placeholder="password" pattern="^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,12}$" required/>
+          <button type="submit" onclick="loginNow(document.getElementById('username'))">Login</button>
+        </form>
+      </div>
+      <br/><div id="hello"></div>
+      <br/><div id="count"></div>
+      <p>Get your geolocation? Click here</p>
+      <input type="button" onclick="getLocation()" value="Get Location!" class="btn"/>
+      <p id="loca"></p>
+    </div>
+      
+    <script>
+      
+      function loginNow(username){
+          // Store in local storage  
+          localStorage.setItem('loginName', document.getElementById('username').value);
+          // Retrieve
+          document.getElementById("hello").innerHTML = "Hello " + localStorage.getItem("loginName") + " ! (local storage)";
+
+          // count login times
+          if (sessionStorage.loginCount) {
+            sessionStorage.loginCount = Number(sessionStorage.loginCount) + 1;
+          }
+          else {
+            sessionStorage.loginCount = 1;
+          }
+          // show session storage
+          document.getElementById("count").innerHTML = "You have tried to log in for " + sessionStorage.loginCount + " time(s) in this session.";
+      }
+
+      const geoLocation = document.getElementById("loca");
+      function getLocation() {
+          if (navigator.geolocation) {
+              navigator.geolocation.getCurrentPosition(showPosition);
+          } else { 
+            geoLocation.innerHTML = "Geolocation is not supported by this browser.";
+          }
+      }
+      
+      function showPosition(position) {
+        geoLocation.innerHTML = "<br>Latitude: " + position.coords.latitude + "<br>Longitude: " + position.coords.longitude;
+      } 
+
+    </script>
+  </body>
+</html>
